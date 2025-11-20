@@ -16,20 +16,17 @@ services:
         value: 5000
       - key: PYTHONUNBUFFERED
         value: 1
-      # Variables de Azure Blob Storage (configurar en Render Dashboard)
+      # Variables de Azure Blob Storage (configurar manualmente en Render Dashboard)
       - key: STORAGE_ACCOUNT_NAME
-        value: trabajoterminal
         sync: false
       - key: STORAGE_ACCOUNT_KEY
-        sync: false  # Configurar manualmente en Render Dashboard
+        sync: false
       - key: CONTAINER_NAME
-        value: radianza
         sync: false
       - key: BLOB_NAME
-        value: municipios_completos_limpio.csv
         sync: false
       - key: CORS_ORIGINS
-        sync: false  # Se actualizará después de desplegar el frontend
+        sync: false
 
   # Frontend Service
   - type: web
@@ -42,7 +39,7 @@ services:
     buildCommand: ""
     envVars:
       - key: REACT_APP_API_URL
-        sync: false  # Se actualizará con la URL del backend después del deploy
+        sync: false
       - key: NODE_ENV
         value: production
 
