@@ -1,0 +1,48 @@
+services:
+  # Backend Service
+  - type: web
+    name: radianza-backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    region: oregon
+    plan: free
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_HOST
+        value: 0.0.0.0
+      - key: FLASK_PORT
+        value: 5000
+      - key: PYTHONUNBUFFERED
+        value: 1
+      # Variables de Azure Blob Storage (configurar en Render Dashboard)
+      - key: STORAGE_ACCOUNT_NAME
+        value: trabajoterminal
+        sync: false
+      - key: STORAGE_ACCOUNT_KEY
+        sync: false  # Configurar manualmente en Render Dashboard
+      - key: CONTAINER_NAME
+        value: radianza
+        sync: false
+      - key: BLOB_NAME
+        value: municipios_completos_limpio.csv
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false  # Se actualizará después de desplegar el frontend
+
+  # Frontend Service
+  - type: web
+    name: radianza-frontend
+    env: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    region: oregon
+    plan: free
+    buildCommand: ""
+    envVars:
+      - key: REACT_APP_API_URL
+        sync: false  # Se actualizará con la URL del backend después del deploy
+      - key: NODE_ENV
+        value: production
+
