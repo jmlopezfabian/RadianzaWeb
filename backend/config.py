@@ -17,7 +17,8 @@ BLOB_NAME = os.getenv('BLOB_NAME', 'municipios_completos_limpio.csv')
 # Configuración de Flask
 FLASK_ENV = os.getenv('FLASK_ENV', 'development')
 FLASK_HOST = os.getenv('FLASK_HOST', '0.0.0.0')
-FLASK_PORT = int(os.getenv('FLASK_PORT', 5000))
+# Railway usa PORT, pero mantenemos FLASK_PORT como fallback para compatibilidad
+FLASK_PORT = int(os.getenv('PORT', os.getenv('FLASK_PORT', 5000)))
 FLASK_DEBUG = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
 
 # Configuración de CORS

@@ -18,9 +18,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar el código de la aplicación
 COPY . .
 
-# Exponer el puerto 5000
+# Exponer el puerto (Railway usa PORT, por defecto 5000)
 EXPOSE 5000
 
-# Comando para ejecutar la aplicación
-CMD ["python", "app.py"]
+# Usar gunicorn para producción (servidor WSGI)
+# Railway inyecta PORT automáticamente, usar sh para expandir la variable
+CMD sh -c 'gunicorn --bind "0.0.0.0:${PORT:-5000}" --workers 2 --threads 2 --timeout 120 app:app'
 

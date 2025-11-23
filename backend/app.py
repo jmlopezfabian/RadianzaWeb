@@ -21,6 +21,10 @@ from config import (
 
 app = Flask(__name__)
 
+# Configurar modo de producción
+app.config['ENV'] = FLASK_ENV
+app.config['DEBUG'] = FLASK_DEBUG and FLASK_ENV != 'production'
+
 # Configurar CORS con orígenes permitidos
 if CORS_ORIGINS == ['*']:
     CORS(app)  # Permite peticiones desde cualquier origen (desarrollo)
@@ -503,9 +507,9 @@ def debug_info():
         }), 500
 
 if __name__ == '__main__':
-    # Configuración para Docker
-    host = os.getenv('FLASK_HOST', '0.0.0.0')
-    port = int(os.getenv('FLASK_PORT', 5000))
-    debug = os.getenv('FLASK_ENV') != 'production'
-    app.run(host=host, port=port, debug=debug)
+    # Configuración para desarrollo local
+    # En producción, usar gunicorn (ver Dockerfile CMD)
+    # Asegurar que debug esté desactivado en producción
+    debug_mode = FLASK_DEBUG and FLASK_ENV != 'production'
+    app.run(host=FLASK_HOST, port=FLASK_PORT, debug=debug_mode)
 
